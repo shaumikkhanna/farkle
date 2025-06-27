@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Farkle Game</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<h1>Farkle</h1>
+
+		<div id="game-info">
+			<span id="round-number">Round: 1</span> |
+			<span id="roll-number">Roll: 0 / 3</span>
+		</div>
+
+		<div id="scoreboard">
+			<div>
+				<span class="score-label">Turn Score:</span>
+				<span id="turn-score">0</span>
+			</div>
+			<div>
+				<span class="score-label">Total Score:</span>
+				<span id="total-score">0</span>
+			</div>
+		</div>
+
+		<div class="dice-container" id="dice-container"></div>
+
+		<div class="bottom-area">
+			<div class="buttons">
+				<button id="roll-btn">Roll</button>
+				<button id="lockin-btn">Lock In</button>
+				<button id="stop-btn">Stop & Bank</button>
+				<button id="new-turn-btn" disabled>Next Turn</button>
+			</div>
+			<div id="status">Waiting for roll...</div>
+		</div>
+
+		<script src="script.js"></script>
+	</body>
+</html>

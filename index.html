@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Farkle - Choose Players</title>
+		<style>
+			@import url("https://fonts.googleapis.com/css2?family=Princess+Sofia&family=Quicksand:wght@400;600&display=swap");
+
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: "Quicksand", sans-serif;
+				background: linear-gradient(to bottom right, #fff1fa, #e0f4ff);
+				color: #444;
+				min-height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.title-screen {
+				text-align: center;
+			}
+
+			h1 {
+				font-family: "Princess Sofia", cursive;
+				font-size: 4rem;
+				color: #ce6bd8;
+				text-shadow: 0 0 10px rgba(255, 192, 253, 0.8);
+				margin-bottom: 2rem;
+			}
+
+			.player-select {
+				font-size: 1.2rem;
+				margin-bottom: 1.5rem;
+			}
+
+			.buttons {
+				display: flex;
+				justify-content: center;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+
+			.buttons button {
+				padding: 0.6rem 1.5rem;
+				font-size: 1.2rem;
+				border: none;
+				border-radius: 10px;
+				background-color: #d692e7;
+				color: white;
+				cursor: pointer;
+				transition: background-color 0.2s, transform 0.2s,
+					box-shadow 0.2s;
+				box-shadow: 0 4px 10px rgba(193, 130, 255, 0.3);
+				font-family: "Quicksand", sans-serif;
+			}
+
+			.buttons button:hover {
+				background-color: #bd78d6;
+				transform: scale(1.05);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="title-screen">
+			<h1>Farkle</h1>
+			<div class="player-select">How many players?</div>
+			<div class="buttons">
+				<button onclick="startGame(1)">1 Player</button>
+				<button onclick="startGame(2)">2 Players</button>
+				<button onclick="startGame(3)">3 Players</button>
+				<button onclick="startGame(4)">4 Players</button>
+			</div>
+		</div>
+
+		<script>
+			function startGame(playerCount) {
+				// Example: Save to localStorage or pass to game logic
+				localStorage.setItem("num_players", playerCount);
+				window.location.href = "start.html"; // Replace with your main game page
+			}
+		</script>
+	</body>
+</html>
