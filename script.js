@@ -6,6 +6,10 @@ const newTurnBtn = document.getElementById("new-turn-btn");
 const statusText = document.getElementById("status");
 const turnScoreText = document.getElementById("turn-score");
 const totalScoreText = document.getElementById("total-score");
+const infoBtn = document.getElementById("info-btn");
+const cheatSheet = document.getElementById("cheat-sheet");
+const cheatPopup = document.getElementById("cheat-popup");
+const closePopup = document.getElementById("close-popup");
 
 let dice = [];
 let locked = Array(6).fill(false);
@@ -396,6 +400,19 @@ function calculateScore(diceArr) {
 
 	return score;
 }
+
+infoBtn.addEventListener("click", () => {
+	console.log("Info button clicked");
+	cheatSheet.classList.toggle("show");
+});
+
+infoBtn.addEventListener("click", () => {
+	cheatPopup.classList.remove("hidden");
+});
+
+closePopup.addEventListener("click", () => {
+	cheatPopup.classList.add("hidden");
+});
 
 // Initial setup
 newTurn();

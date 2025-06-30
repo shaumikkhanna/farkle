@@ -167,3 +167,153 @@ button:disabled {
 	color: #7a4ba1;
 	font-weight: 600;
 }
+
+.cheat-sheet-box {
+	position: fixed;
+	top: 15vw;
+	width: 260px;
+	max-width: 50vw;
+	font-size: 1rem;
+	padding: 1.2rem 1.5rem;
+	background: #fff8ff;
+	border: 2px dashed #dba3f5;
+	border-radius: 14px;
+	color: #703aa0;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+	z-index: 10;
+}
+
+.cheat-left {
+	left: 0px; /* Stick to left edge */
+	margin-left: 5vw;
+}
+
+.cheat-right {
+	right: 0; /* Stick to right edge */
+	margin-right: 5vw;
+}
+
+.cheat-sheet-box h3 {
+	margin-top: 0;
+	font-size: 0.9rem;
+	text-align: center;
+	color: #a252c3;
+}
+
+.cheat-sheet-box ul {
+	list-style: none;
+	padding-left: 0;
+	margin: 0;
+}
+
+.cheat-sheet-box li {
+	margin-bottom: 6px;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex-wrap: wrap;
+}
+
+.cheat-sheet-box img {
+	width: 18px;
+	height: 18px;
+}
+
+/* 📱 Hide on mobile */
+@media (max-width: 768px) {
+	.cheat-sheet-box {
+		display: none;
+	}
+}
+
+/* ℹ️ Info Button (only on mobile) */
+.info-button {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	font-size: 1.5rem;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-color: #d692e7;
+	color: white;
+	border: none;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	display: none; /* hidden by default */
+	z-index: 100;
+}
+
+/* 📱 Only show info button on mobile */
+@media (max-width: 768px) {
+	.info-button {
+		display: block;
+	}
+}
+
+/* 📜 Popup cheat sheet */
+.cheat-popup {
+	position: fixed;
+	top: 5%;
+	left: 5%;
+	right: 5%;
+	bottom: 5%;
+	background: white;
+	border-radius: 15px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+	padding: 1rem;
+	overflow-y: auto;
+	z-index: 1000;
+}
+
+.cheat-popup.hidden {
+	display: none;
+}
+
+.close-popup {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 1.5rem;
+	background: none;
+	border: none;
+	color: #a85ad6;
+	cursor: pointer;
+}
+
+/* Inside popup */
+.popup-content {
+	font-size: 0.9rem;
+	color: #5c3e7d;
+}
+
+.popup-columns {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+.popup-columns h4 {
+	margin-top: 0.5rem;
+	font-size: 1rem;
+	color: #9c52c3;
+}
+
+.popup-columns ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+.popup-columns li {
+	margin-bottom: 0.6rem;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.popup-columns img {
+	width: 20px;
+	height: 20px;
+}

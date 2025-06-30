@@ -6,6 +6,7 @@
 		<title>Farkle Game</title>
 		<link rel="stylesheet" href="style.css" />
 	</head>
+
 	<body>
 		<h1>Farkle</h1>
 
@@ -33,9 +34,143 @@
 				<button id="lockin-btn">Lock In</button>
 				<button id="stop-btn">Stop & Bank</button>
 				<button id="new-turn-btn" disabled>Next Turn</button>
+				<button id="info-btn" class="info-button">i</button>
 			</div>
+
 			<div id="status">Waiting for roll...</div>
 			<div id="locked-dice-container" class="locked-dice-container"></div>
+		</div>
+
+		<!-- 📜 Mobile Cheat Sheet Popup -->
+		<div id="cheat-popup" class="cheat-popup hidden">
+			<button id="close-popup" class="close-popup">&times;</button>
+			<div class="popup-content">
+				<h3>Cheat Sheet</h3>
+				<div class="popup-columns">
+					<div>
+						<h4>Basic Combos</h4>
+						<ul>
+							<li><img src="images/dice-1.png" /> → 100 pts</li>
+							<li><img src="images/dice-5.png" /> → 50 pts</li>
+							<li class="combo">
+								<img src="images/dice-1.png" /><img
+									src="images/dice-1.png"
+								/><img src="images/dice-1.png" /> → 300 pts
+							</li>
+							<li class="combo">
+								<img src="images/dice-2.png" /><img
+									src="images/dice-2.png"
+								/><img src="images/dice-2.png" /> → 200 pts
+							</li>
+							<li class="combo">
+								<img src="images/dice-3.png" /><img
+									src="images/dice-3.png"
+								/><img src="images/dice-3.png" /> → 300 pts
+							</li>
+							<li class="combo">
+								<img src="images/dice-4.png" /><img
+									src="images/dice-4.png"
+								/><img src="images/dice-4.png" /> → 400 pts
+							</li>
+							<li class="combo">
+								<img src="images/dice-5.png" /><img
+									src="images/dice-5.png"
+								/><img src="images/dice-5.png" /> → 500 pts
+							</li>
+							<li class="combo">
+								<img src="images/dice-6.png" /><img
+									src="images/dice-6.png"
+								/><img src="images/dice-6.png" /> → 600 pts
+							</li>
+						</ul>
+					</div>
+					<div>
+						<h4>Special Combos</h4>
+						<ul>
+							<li class="combo">4 Of A Kind → 1000 pts</li>
+							<li class="combo">5 Of A Kind → 2000 pts</li>
+							<li class="combo">6 Of A Kind → 3000 pts</li>
+							<li class="combo">
+								4 Of A Kind + A Pair → 1500 pts
+							</li>
+							<li class="combo">
+								<img src="images/dice-1.png" /><img
+									src="images/dice-2.png"
+								/><img src="images/dice-3.png" /><img
+									src="images/dice-4.png"
+								/><img src="images/dice-5.png" /><img
+									src="images/dice-6.png"
+								/>
+								→ 1500 pts
+							</li>
+							<li class="combo">Three Pairs → 1500 pts</li>
+							<li class="combo">Two Triples → 2500 pts</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="cheat-sheet" class="cheat-sheet">
+			<div class="cheat-sheet-box cheat-left">
+				<h3>Basic</h3>
+				<ul>
+					<li><img src="images/dice-1.png" /> → 100 pts</li>
+					<li><img src="images/dice-5.png" /> → 50 pts</li>
+					<li class="combo">
+						<img src="images/dice-1.png" /><img
+							src="images/dice-1.png"
+						/><img src="images/dice-1.png" /> → 300 pts
+					</li>
+					<li class="combo">
+						<img src="images/dice-2.png" /><img
+							src="images/dice-2.png"
+						/><img src="images/dice-2.png" /> → 200 pts
+					</li>
+					<li class="combo">
+						<img src="images/dice-3.png" /><img
+							src="images/dice-3.png"
+						/><img src="images/dice-3.png" /> → 300 pts
+					</li>
+					<li class="combo">
+						<img src="images/dice-4.png" /><img
+							src="images/dice-4.png"
+						/><img src="images/dice-4.png" /> → 400 pts
+					</li>
+					<li class="combo">
+						<img src="images/dice-5.png" /><img
+							src="images/dice-5.png"
+						/><img src="images/dice-5.png" /> → 500 pts
+					</li>
+					<li class="combo">
+						<img src="images/dice-6.png" /><img
+							src="images/dice-6.png"
+						/><img src="images/dice-6.png" /> → 600 pts
+					</li>
+				</ul>
+			</div>
+
+			<div class="cheat-sheet-box cheat-right">
+				<h3>Special</h3>
+				<ul>
+					<li class="combo">4 Of A Kind → 1000 pts</li>
+					<li class="combo">5 Of A Kind → 2000 pts</li>
+					<li class="combo">6 Of A Kind → 3000 pts</li>
+					<li class="combo">4 Of A Kind + A Pair → 1500 pts</li>
+					<li class="combo">
+						<img src="images/dice-1.png" /><img
+							src="images/dice-2.png"
+						/><img src="images/dice-3.png" /><img
+							src="images/dice-4.png"
+						/><img src="images/dice-5.png" /><img
+							src="images/dice-6.png"
+						/>
+						→ 1500 pts
+					</li>
+					<li class="combo">Three Pairs → 1500 pts</li>
+					<li class="combo">Two Triples → 2500 pts</li>
+				</ul>
+			</div>
 		</div>
 
 		<script src="script.js"></script>
