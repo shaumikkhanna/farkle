@@ -61,8 +61,8 @@ h1 {
 }
 
 .die {
-	width: 64px;
-	height: 64px;
+	width: 4rem;
+	height: 4rem;
 	border-radius: 12px;
 	border: 2px solid #ccc;
 	background-color: white;
@@ -98,7 +98,7 @@ h1 {
 }
 
 .die.locked {
-	background-color: #ffe3ff; /* ✅ only affects color, not image */
+	background-color: #ffe3ff;
 	border-color: #da8ff1;
 	box-shadow: 0 0 15px rgba(216, 135, 255, 0.5);
 	transform: scale(1.1);
@@ -111,6 +111,16 @@ h1 {
 	align-items: center;
 	gap: 1rem;
 	margin-bottom: 2rem;
+}
+
+.locked-dice-container {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-top: 20px;
+	padding-top: 10px;
+	border-top: 2px dashed #ccc;
 }
 
 .buttons {

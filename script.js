@@ -74,6 +74,9 @@ function rollDice() {
 
 function renderDice() {
 	diceContainer.innerHTML = "";
+	const lockedContainer = document.getElementById("locked-dice-container");
+	lockedContainer.innerHTML = "";
+
 	for (let i = 0; i < 6; i++) {
 		const die = document.createElement("div");
 		die.className = "die";
@@ -82,25 +85,26 @@ function renderDice() {
 			die.style.backgroundImage = `url('images/dice-${dice[i]}.png')`;
 
 			if (justRolled[i]) {
-				void die.offsetWidth; // force reflow
-				die.classList.add("roll"); // ✅ animate just-rolled dice
+				void die.offsetWidth;
+				die.classList.add("roll");
 			}
 		}
 
 		if (locked[i]) {
 			die.classList.add("locked");
-		} else if (selected[i]) {
-			die.classList.add("selected");
-		}
+			lockedContainer.appendChild(die);
+		} else {
+			if (selected[i]) die.classList.add("selected");
 
-		if (!locked[i] && canSelectDice) {
-			die.addEventListener("click", () => {
-				selected[i] = !selected[i];
-				renderDice();
-			});
-		}
+			if (canSelectDice) {
+				die.addEventListener("click", () => {
+					selected[i] = !selected[i];
+					renderDice();
+				});
+			}
 
-		diceContainer.appendChild(die);
+			diceContainer.appendChild(die);
+		}
 	}
 }
 
@@ -190,14 +194,23 @@ function lockInSelected() {
 				.filter((i) => i !== -1);
 
 			if (allDiceUsedForScoring(lockedIndices)) {
-				// Hot dice: all 6 dice contributed to score
-				locked.fill(false);
+				// Hot dice: bank score and start new turn
+				totalScore += currentTurnScore;
+				currentTurnScore = 0;
 				previousLockedScore = 0;
-				statusText.textContent =
-					"Hot dice! You scored with all 6. Roll all again.";
-				renderDice();
-				updateScores();
+				hasLockedThisRoll = false;
+				canSelectDice = false;
+				canBank = false;
+				canRoll = true;
 				rollCount = 0;
+
+				statusText.textContent =
+					"Hot dice! All dice scored — points banked. Roll again!";
+				updateScores();
+
+				locked.fill(false);
+				selected.fill(false);
+				renderDice();
 				return;
 			} else {
 				// Not hot dice: all locked but not all scored → turn ends, bank points
