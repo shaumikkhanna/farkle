@@ -10,6 +10,14 @@ const infoBtn = document.getElementById("info-btn");
 const cheatSheet = document.getElementById("cheat-sheet");
 const cheatPopup = document.getElementById("cheat-popup");
 const closePopup = document.getElementById("close-popup");
+const urlParams = new URLSearchParams(window.location.search);
+const numPlayers = parseInt(urlParams.get("players")) || 2;
+
+let players = Array.from({ length: numPlayers }, () => ({
+	totalScore: 0,
+}));
+
+let currentPlayer = -1;
 
 let dice = [];
 let locked = Array(6).fill(false);
@@ -17,13 +25,13 @@ let selected = Array(6).fill(false);
 let justRolled = Array(6).fill(false);
 let currentTurnScore = 0;
 let previousLockedScore = 0;
-let totalScore = 0;
 let hasLockedThisRoll = false;
 let canSelectDice = false;
 let canBank = false;
 let canRoll = true;
 let rollCount = 0;
-let roundNumber = 0;
+let roundNumber = 1;
+let turnInCurrentRound = 0;
 
 function rollDice() {
 	if (!canRoll) {
@@ -160,6 +168,48 @@ function allDiceUsedForScoring(indices) {
 	return used === 6;
 }
 
+function checkForWinner() {
+	const highest = Math.max(...players.map((p) => p.totalScore));
+	if (highest >= 1000) {
+		const winners = players
+			.map((p, i) => ({ score: p.totalScore, index: i }))
+			.filter((p) => p.score === highest);
+
+		let message = "";
+
+		if (winners.length === 1) {
+			message = `🎉 Player ${winners[0].index + 1} wins with ${
+				winners[0].score
+			} points!`;
+		} else {
+			const names = winners
+				.map((w) => `Player ${w.index + 1}`)
+				.join(", ");
+			message = `🤝 It's a tie! ${names} all have ${highest} points!`;
+		}
+
+		// Disable all buttons
+		rollBtn.disabled = true;
+		lockInBtn.disabled = true;
+		stopBtn.disabled = true;
+		newTurnBtn.disabled = true;
+
+		statusText.textContent = message;
+
+		const popup = document.getElementById("winner-popup");
+		const messageEl = document.getElementById("winner-message");
+		const scoresEl = document.getElementById("final-scores");
+
+		messageEl.textContent = message;
+
+		scoresEl.innerHTML = players
+			.map((p, i) => `<li>Player ${i + 1}: ${p.totalScore} points</li>`)
+			.join("");
+
+		popup.classList.remove("hidden");
+	}
+}
+
 function lockInSelected() {
 	if (hasLockedThisRoll) {
 		statusText.textContent = "You already locked dice this roll!";
@@ -199,7 +249,7 @@ function lockInSelected() {
 
 			if (allDiceUsedForScoring(lockedIndices)) {
 				// Hot dice: bank score and start new turn
-				totalScore += currentTurnScore;
+				players[currentPlayer].totalScore += currentTurnScore;
 				currentTurnScore = 0;
 				previousLockedScore = 0;
 				hasLockedThisRoll = false;
@@ -218,7 +268,7 @@ function lockInSelected() {
 				return;
 			} else {
 				// Not hot dice: all locked but not all scored → turn ends, bank points
-				totalScore += currentTurnScore;
+				players[currentPlayer].totalScore += currentTurnScore;
 				currentTurnScore = 0;
 				previousLockedScore = 0;
 				hasLockedThisRoll = false;
@@ -239,7 +289,7 @@ function lockInSelected() {
 
 		if (rollCount >= 3) {
 			// Automatically end the turn
-			totalScore += currentTurnScore;
+			players[currentPlayer].totalScore += currentTurnScore;
 			currentTurnScore = 0;
 			previousLockedScore = 0;
 			hasLockedThisRoll = false;
@@ -270,7 +320,7 @@ function stopTurn() {
 		return;
 	}
 
-	totalScore += currentTurnScore;
+	players[currentPlayer].totalScore += currentTurnScore;
 	currentTurnScore = 0;
 	previousLockedScore = 0;
 	hasLockedThisRoll = false;
@@ -295,10 +345,19 @@ function updateRoundInfo() {
 	).textContent = `Round: ${roundNumber}`;
 	document.getElementById(
 		"roll-number"
-	).textContent = `Roll: ${rollCount} / 3`;
+	).textContent = `Roll: ${rollCount} of 3`;
 }
 
 function newTurn() {
+	currentPlayer = (currentPlayer + 1) % numPlayers;
+	if (turnInCurrentRound >= numPlayers) {
+		roundNumber++;
+		turnInCurrentRound = 0;
+		checkForWinner();
+	}
+
+	turnInCurrentRound++;
+
 	dice = Array(6).fill(null);
 	locked = Array(6).fill(false);
 	selected = Array(6).fill(false);
@@ -307,16 +366,19 @@ function newTurn() {
 	previousLockedScore = 0;
 	hasLockedThisRoll = false;
 	canRoll = true;
-	roundNumber++;
 	rollCount = 0;
+
 	updateRoundInfo();
+	updateScores();
+	renderDice();
+
 	rollBtn.disabled = false;
 	lockInBtn.disabled = false;
 	stopBtn.disabled = false;
 	newTurnBtn.disabled = true;
-	statusText.textContent = "New turn! Roll to start.";
-	updateScores();
-	renderDice();
+	statusText.textContent = `Player ${
+		currentPlayer + 1
+	}'s turn. Roll to start.`;
 }
 
 function bump(elem) {
@@ -328,8 +390,27 @@ function bump(elem) {
 function updateScores() {
 	const turnEl = document.getElementById("turn-score");
 	const totalEl = document.getElementById("total-score");
+	const playerEl = document.getElementById("player-info");
+	const allScoresEl = document.getElementById("all-player-scores");
+
 	turnEl.textContent = currentTurnScore;
-	totalEl.textContent = totalScore;
+	totalEl.textContent = players[currentPlayer].totalScore;
+
+	if (playerEl) {
+		playerEl.textContent = `Player ${currentPlayer + 1} of ${numPlayers}`;
+	}
+
+	if (allScoresEl) {
+		allScoresEl.innerHTML = players
+			.map((p, i) => {
+				const isCurrent = i === currentPlayer;
+				return `<span class="${isCurrent ? "active" : ""}">P${i + 1}: ${
+					p.totalScore
+				}</span>`;
+			})
+			.join("");
+	}
+
 	bump(turnEl);
 	bump(totalEl);
 }
@@ -412,6 +493,10 @@ infoBtn.addEventListener("click", () => {
 
 closePopup.addEventListener("click", () => {
 	cheatPopup.classList.add("hidden");
+});
+
+document.getElementById("play-again-btn").addEventListener("click", () => {
+	window.location.reload(); // Or redirect to your game start screen
 });
 
 // Initial setup

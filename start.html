@@ -12,8 +12,11 @@
 
 		<div id="game-info">
 			<span id="round-number">Round: 1</span> |
-			<span id="roll-number">Roll: 0 / 3</span>
+			<span id="roll-number">Roll: 0 of 3</span> |
+			<span id="player-info">Player 1 of X</span>
 		</div>
+
+		<div id="all-player-scores" class="all-scores"></div>
 
 		<div id="scoreboard">
 			<div>
@@ -170,6 +173,14 @@
 					<li class="combo">Three Pairs → 1500 pts</li>
 					<li class="combo">Two Triples → 2500 pts</li>
 				</ul>
+			</div>
+		</div>
+
+		<div id="winner-popup" class="winner-popup hidden">
+			<div class="winner-box">
+				<h2 id="winner-message">🎉 Winner!</h2>
+				<ul id="final-scores"></ul>
+				<button id="play-again-btn">Play Again</button>
 			</div>
 		</div>
 
