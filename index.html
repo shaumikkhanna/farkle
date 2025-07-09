@@ -4,14 +4,14 @@
 		<meta charset="UTF-8" />
 		<title>Farkle - Choose Players</title>
 		<style>
-			@import url("https://fonts.googleapis.com/css2?family=Princess+Sofia&family=Quicksand:wght@400;600&display=swap");
+			@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Rubik:wght@400;600&display=swap");
 
 			body {
 				margin: 0;
 				padding: 0;
-				font-family: "Quicksand", sans-serif;
-				background: linear-gradient(to bottom right, #fff1fa, #e0f4ff);
-				color: #444;
+				font-family: "Rubik", sans-serif;
+				background: linear-gradient(to bottom right, #ffebe0, #ffe9d2);
+				color: #3c1f00;
 				min-height: 100vh;
 				display: flex;
 				justify-content: center;
@@ -23,16 +23,18 @@
 			}
 
 			h1 {
-				font-family: "Princess Sofia", cursive;
+				font-family: "Playfair Display", serif;
+				color: #e0462f;
+				text-shadow: 0 0 10px rgba(255, 100, 50, 0.3);
 				font-size: 4rem;
-				color: #ce6bd8;
-				text-shadow: 0 0 10px rgba(255, 192, 253, 0.8);
 				margin-bottom: 2rem;
 			}
 
 			.player-select {
 				font-size: 1.2rem;
 				margin-bottom: 1.5rem;
+				color: #c73a21;
+				font-family: "Rubik", sans-serif;
 			}
 
 			.buttons {
@@ -47,17 +49,17 @@
 				font-size: 1.2rem;
 				border: none;
 				border-radius: 10px;
-				background-color: #d692e7;
+				background-color: #d94f2a;
 				color: white;
 				cursor: pointer;
 				transition: background-color 0.2s, transform 0.2s,
 					box-shadow 0.2s;
-				box-shadow: 0 4px 10px rgba(193, 130, 255, 0.3);
-				font-family: "Quicksand", sans-serif;
+				box-shadow: 0 4px 10px rgba(255, 102, 51, 0.3);
+				font-family: "Rubik", sans-serif;
 			}
 
 			.buttons button:hover {
-				background-color: #bd78d6;
+				background-color: #bf3b1f;
 				transform: scale(1.05);
 			}
 		</style>
@@ -67,19 +69,18 @@
 			<h1>Farkle</h1>
 			<div class="player-select">How many players?</div>
 			<div class="buttons">
-				<button onclick="startGame(1)">1 Player</button>
+				<button onclick="startGame(1)">Play Solo</button>
 				<button onclick="startGame(2)">2 Players</button>
-				<button onclick="startGame(3)">3 Players</button>
-				<button onclick="startGame(4)">4 Players</button>
+				<button onclick="startGame(2, true)">Vs CPU</button>
 			</div>
-			<!-- <div class="buttons">
-				<button onclick="startGame(1)">Start</button>
-			</div> -->
 		</div>
 
 		<script>
-			function startGame(playerCount) {
-				window.location.href = `start.html?players=${playerCount}`;
+			function startGame(playerCount, vsCPU = false) {
+				const url = new URL("start.html", window.location.origin);
+				url.searchParams.set("players", playerCount);
+				if (vsCPU) url.searchParams.set("cpu", "true");
+				window.location.href = url;
 			}
 		</script>
 	</body>

@@ -11,7 +11,8 @@ const cheatSheet = document.getElementById("cheat-sheet");
 const cheatPopup = document.getElementById("cheat-popup");
 const closePopup = document.getElementById("close-popup");
 const urlParams = new URLSearchParams(window.location.search);
-const numPlayers = parseInt(urlParams.get("players")) || 2;
+const numPlayers = parseInt(urlParams.get("players")) || 1;
+const vsCPU = urlParams.get("cpu") === "true";
 
 let players = Array.from({ length: numPlayers }, () => ({
 	totalScore: 0,
@@ -168,9 +169,100 @@ function allDiceUsedForScoring(indices) {
 	return used === 6;
 }
 
+async function cpuTurn() {
+	statusText.textContent = "CPU is thinking...";
+	rollBtn.disabled = true;
+	lockInBtn.disabled = true;
+	stopBtn.disabled = true;
+
+	await sleep(1000);
+	rollDice();
+
+	await sleep(3000);
+
+	// === Decision-making: select scoring dice ===
+	selected.fill(false);
+
+	const counts = Array(7).fill(0);
+	for (let val of dice) counts[val]++;
+
+	// Strategy: prioritize combos first
+	let comboLocked = false;
+
+	for (let val = 1; val <= 6; val++) {
+		if (counts[val] >= 3) {
+			for (let i = 0; i < 6; i++) {
+				if (dice[i] === val) selected[i] = true;
+			}
+			comboLocked = true;
+		}
+	}
+
+	// Then 1s and 5s if not doing combos
+	if (!comboLocked) {
+		for (let i = 0; i < 6; i++) {
+			if (dice[i] === 1 || dice[i] === 5) {
+				selected[i] = true;
+			}
+		}
+	}
+
+	renderDice();
+
+	await sleep(2000);
+
+	if (!selected.some((s) => s)) {
+		statusText.textContent = "CPU farkled!";
+		newTurnBtn.disabled = false;
+		return;
+	}
+
+	lockInSelected();
+
+	await sleep(2000);
+
+	const totalLocked = locked.filter(Boolean).length;
+	const potentialScore = currentTurnScore;
+
+	// === Decide to roll again or stop ===
+	const aggressive = Math.random() < 0.5;
+	const shouldKeepRolling =
+		totalLocked <= 2 ||
+		(aggressive && rollCount < 3 && potentialScore >= 300);
+
+	if (shouldKeepRolling) {
+		await sleep(3000);
+		cpuTurn();
+	} else {
+		// Before stopping, re-select all scoring dice
+		selected.fill(false);
+		for (let i = 0; i < 6; i++) {
+			if (!locked[i] && (dice[i] === 1 || dice[i] === 5)) {
+				selected[i] = true;
+			}
+		}
+		// if (selected.some(Boolean)) {
+		// 	lockInSelected();
+		// 	await sleep(3000);
+		// }
+		stopTurn();
+
+		await sleep(1000);
+		newTurn();
+		if (vsCPU && currentPlayer === 1) {
+			cpuTurn();
+		}
+	}
+}
+
+// Helper for delays
+function sleep(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function checkForWinner() {
 	const highest = Math.max(...players.map((p) => p.totalScore));
-	if (highest >= 1000) {
+	if (highest >= 10000) {
 		const winners = players
 			.map((p, i) => ({ score: p.totalScore, index: i }))
 			.filter((p) => p.score === highest);
@@ -379,6 +471,10 @@ function newTurn() {
 	statusText.textContent = `Player ${
 		currentPlayer + 1
 	}'s turn. Roll to start.`;
+
+	if (vsCPU && currentPlayer === 1) {
+		setTimeout(cpuTurn, 1000);
+	}
 }
 
 function bump(elem) {

@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Princess+Sofia&family=Quicksand:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Rubik:wght@400;600&display=swap");
 
 body {
 	margin: 0;
 	padding: 0;
-	font-family: "Quicksand", sans-serif;
-	background: linear-gradient(to bottom right, #fff1fa, #e0f4ff);
-	color: #444;
+	font-family: "Rubik", sans-serif;
+	background: linear-gradient(to bottom right, #ffebe0, #ffe9d2);
+	color: #3c1f00;
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -14,9 +14,9 @@ body {
 
 /* 🎀 Title */
 h1 {
-	font-family: "Princess Sofia", cursive;
+	font-family: "Playfair Display", serif;
 	font-size: 4rem;
-	color: #ce6bd8;
+	color: #e0462f;
 	text-shadow: 0 0 10px rgba(255, 192, 253, 0.8);
 	margin: 1.5rem 0 1rem;
 }
@@ -32,7 +32,7 @@ h1 {
 
 .score-label {
 	font-weight: bold;
-	color: #8c4fb5;
+	color: #e0462f;
 }
 
 .bump {
@@ -136,7 +136,7 @@ button {
 	font-family: "Quicksand", sans-serif;
 	border: none;
 	border-radius: 10px;
-	background-color: #d692e7;
+	background-color: #d94f2a;
 	color: white;
 	cursor: pointer;
 	transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
@@ -144,7 +144,7 @@ button {
 }
 
 button:hover {
-	background-color: #bd78d6;
+	background-color: #bf3b1f;
 	transform: scale(1.05);
 }
 
@@ -157,14 +157,14 @@ button:disabled {
 #status {
 	margin-top: 0.3rem;
 	font-size: 1.1rem;
-	color: #7a4ba1;
+	color: #c73a21;
 	font-weight: 600;
 }
 
 #game-info {
 	font-size: 1.2rem;
 	margin-bottom: 1rem;
-	color: #7a4ba1;
+	color: #c73a21;
 	font-weight: 600;
 }
 
@@ -175,11 +175,11 @@ button:disabled {
 	max-width: 50vw;
 	font-size: 1rem;
 	padding: 1.2rem 1.5rem;
-	background: #fff8ff;
-	border: 2px dashed #dba3f5;
+	background: #fff0e0;
+	border: 2px dashed #f0793e;
 	border-radius: 14px;
-	color: #703aa0;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+	color: #5c2b00;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 	z-index: 10;
 }
 
@@ -197,7 +197,7 @@ button:disabled {
 	margin-top: 0;
 	font-size: 0.9rem;
 	text-align: center;
-	color: #a252c3;
+	color: #d94f2a;
 }
 
 .cheat-sheet-box ul {
@@ -234,10 +234,10 @@ button:disabled {
 	font-size: 1.2rem;
 	padding: 0.4rem 1rem;
 	border-radius: 20px;
-	background-color: #f3d6ff;
-	color: #8c4fb5;
-	border: 2px solid #dba3f5;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	background-color: #ffe4cc;
+	color: #c73a21;
+	border: 2px solid #f0793e;
+	box-shadow: 0 4px 10px rgba(255, 102, 51, 0.2);
 	cursor: pointer;
 	z-index: 100;
 	display: none;
@@ -245,12 +245,13 @@ button:disabled {
 }
 
 .info-button:hover {
-	background-color: #eac8f9;
+	background-color: #ffd1a3;
 	transform: scale(1.05);
 }
 
 .info-button i {
 	margin: 0;
+	color: inherit;
 }
 
 /* 📱 Only show info button on mobile */
@@ -286,14 +287,14 @@ button:disabled {
 	font-size: 1.5rem;
 	background: none;
 	border: none;
-	color: #a85ad6;
+	color: #d94f2a;
 	cursor: pointer;
 }
 
 /* Inside popup */
 .popup-content {
 	font-size: 0.9rem;
-	color: #5c3e7d;
+	color: #5c2b00;
 }
 
 .popup-columns {
@@ -306,7 +307,7 @@ button:disabled {
 .popup-columns h4 {
 	margin-top: 0.5rem;
 	font-size: 1rem;
-	color: #9c52c3;
+	color: #c73a21;
 }
 
 .popup-columns ul {
@@ -330,7 +331,7 @@ button:disabled {
 #all-player-scores {
 	margin-bottom: 1.5rem;
 	font-size: 1.1rem;
-	color: #703aa0;
+	color: #732700;
 	text-align: center;
 }
 
@@ -338,7 +339,7 @@ button:disabled {
 	display: inline-block;
 	margin: 0 0.7rem;
 	padding: 4px 10px;
-	background-color: #f9e8ff;
+	background-color: #ffe4cc;
 	border-radius: 12px;
 	box-shadow: 0 2px 6px rgba(173, 105, 210, 0.15);
 	transition: transform 0.2s ease, background-color 0.2s ease;
@@ -351,9 +352,9 @@ button:disabled {
 
 #all-player-scores span.active {
 	color: #fff;
-	background: linear-gradient(to right, #ce6bd8, #9c52c3);
+	background: linear-gradient(to right, #e0462f, #bf2e10);
 	font-weight: bold;
-	box-shadow: 0 0 12px rgba(206, 107, 216, 0.6);
+	box-shadow: 0 0 12px rgba(255, 102, 51, 0.6);
 	transform: scale(1.1);
 	animation: pulse-glow 1.5s infinite ease-in-out;
 	position: relative;
@@ -361,13 +362,13 @@ button:disabled {
 
 @keyframes pulse-glow {
 	0% {
-		box-shadow: 0 0 8px rgba(206, 107, 216, 0.5);
+		box-shadow: 0 0 8px rgba(255, 102, 51, 0.4);
 	}
 	50% {
-		box-shadow: 0 0 16px rgba(206, 107, 216, 0.9);
+		box-shadow: 0 0 16px rgba(255, 102, 51, 0.9);
 	}
 	100% {
-		box-shadow: 0 0 8px rgba(206, 107, 216, 0.5);
+		box-shadow: 0 0 8px rgba(255, 102, 51, 0.4);
 	}
 }
 
@@ -389,8 +390,8 @@ button:disabled {
 }
 
 .winner-box {
-	background: #fff1fa;
-	border: 3px solid #ce6bd8;
+	background: #fff0e0;
+	border: 3px solid #e0462f;
 	border-radius: 16px;
 	padding: 2rem;
 	text-align: center;
@@ -399,7 +400,7 @@ button:disabled {
 }
 
 .winner-box h2 {
-	color: #9c52c3;
+	color: #c73a21;
 	font-size: 2rem;
 	margin-bottom: 1rem;
 }
@@ -408,7 +409,7 @@ button:disabled {
 	list-style: none;
 	padding: 0;
 	margin: 1rem 0;
-	color: #703aa0;
+	color: #732700;
 	font-size: 1.1rem;
 }
 
@@ -418,7 +419,7 @@ button:disabled {
 
 #winner-box button,
 #winner-box #play-again-btn {
-	background-color: #d692e7;
+	background-color: #d94f2a;
 	color: white;
 	padding: 0.6rem 1.5rem;
 	border: none;
@@ -430,7 +431,7 @@ button:disabled {
 
 #winner-box button:hover,
 #winner-box #play-again-btn:hover {
-	background-color: #bd78d6;
+	background-color: #bf3b1f;
 	transform: scale(1.05);
 }
 
