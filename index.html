@@ -76,7 +76,13 @@
 
 		<script>
 			function startGame(playerCount, vsCPU = false) {
-				const url = new URL("start.html", window.location.origin);
+				const url = new URL(
+					window.location.origin +
+						window.location.pathname.replace(
+							/\/[^\/]*$/,
+							"/start.html"
+						)
+				);
 				url.searchParams.set("players", playerCount);
 				if (vsCPU) url.searchParams.set("cpu", "true");
 				window.location.href = url;
