@@ -170,81 +170,173 @@ function allDiceUsedForScoring(indices) {
 }
 
 async function cpuTurn() {
-	statusText.textContent = "CPU is thinking...";
+	statusText.textContent = "🤖 CPU is thinking...";
 	rollBtn.disabled = true;
 	lockInBtn.disabled = true;
 	stopBtn.disabled = true;
 
-	await sleep(1000);
+	await sleep(500);
 	rollDice();
 
-	await sleep(3000);
+	await sleep(2000);
 
-	// === Decision-making: select scoring dice ===
 	selected.fill(false);
 
+	// Combine current dice with already locked dice to evaluate scoring
+	const allDice = [];
+	for (let i = 0; i < 6; i++) {
+		if (locked[i]) allDice.push(dice[i]); // previously locked
+	}
+	for (let i = 0; i < 6; i++) {
+		if (!locked[i] && dice[i] != null) allDice.push(dice[i]); // just rolled
+	}
+
 	const counts = Array(7).fill(0);
-	for (let val of dice) counts[val]++;
+	for (let val of allDice) counts[val]++;
 
-	// Strategy: prioritize combos first
-	let comboLocked = false;
+	const used = Array(6).fill(false); // marks dice to lock this turn
 
-	for (let val = 1; val <= 6; val++) {
-		if (counts[val] >= 3) {
-			for (let i = 0; i < 6; i++) {
-				if (dice[i] === val) selected[i] = true;
+	const toConsider = dice
+		.map((val, i) => ({ val, index: i }))
+		.filter((d) => !locked[d.index]);
+
+	function markDice(val, count) {
+		let found = 0;
+		for (const d of toConsider) {
+			if (d.val === val && !used[d.index] && found < count) {
+				used[d.index] = true;
+				found++;
 			}
-			comboLocked = true;
 		}
 	}
 
-	// Then 1s and 5s if not doing combos
-	if (!comboLocked) {
-		for (let i = 0; i < 6; i++) {
-			if (dice[i] === 1 || dice[i] === 5) {
-				selected[i] = true;
+	let comboLogged = false;
+
+	// === Special Combos ===
+
+	// Straight (1–6)
+	if (counts.slice(1).every((c) => c === 1)) {
+		console.log("🤖 CPU: Detected straight!");
+		for (const d of toConsider) used[d.index] = true;
+		comboLogged = true;
+	}
+
+	// Three pairs
+	else if (counts.slice(1).filter((c) => c === 2).length === 3) {
+		console.log("🤖 CPU: Detected three pairs!");
+		for (let val = 1; val <= 6; val++) {
+			if (counts[val] === 2) markDice(val, 2);
+		}
+		comboLogged = true;
+	}
+
+	// Two triples
+	else if (counts.slice(1).filter((c) => c === 3).length === 2) {
+		console.log("🤖 CPU: Detected two triples!");
+		for (let val = 1; val <= 6; val++) {
+			if (counts[val] === 3) markDice(val, 3);
+		}
+		comboLogged = true;
+	}
+
+	// Four of a kind + a pair
+	else if (counts.some((c) => c === 4) && counts.some((c) => c === 2)) {
+		console.log("🤖 CPU: Detected four of a kind + a pair!");
+		for (let val = 1; val <= 6; val++) {
+			if (counts[val] === 4) markDice(val, 4);
+			if (counts[val] === 2) markDice(val, 2);
+		}
+		comboLogged = true;
+	}
+
+	// === Multiples of a kind ===
+	for (let val = 1; val <= 6; val++) {
+		if (counts[val] >= 3 && !comboLogged) {
+			const alreadyLocked = locked.reduce(
+				(acc, l, i) => (l && dice[i] === val ? acc + 1 : acc),
+				0
+			);
+			const needed = 3 - alreadyLocked;
+			if (needed > 0) {
+				console.log(
+					`🤖 CPU: Completing ${counts[val]} of a kind (${val})`
+				);
+				markDice(val, needed);
 			}
 		}
+		if (counts[val] === 4 || counts[val] === 5 || counts[val] === 6) {
+			markDice(val, counts[val]);
+		}
+	}
+
+	// === 1s and 5s (only if not already used in combos)
+	for (const d of toConsider) {
+		if (!used[d.index] && (d.val === 1 || d.val === 5)) {
+			used[d.index] = true;
+			console.log(`🤖 CPU: Taking single scoring die ${d.val}`);
+		}
+	}
+
+	// Finalize selected dice
+	for (let i = 0; i < 6; i++) {
+		selected[i] = used[i];
 	}
 
 	renderDice();
 
-	await sleep(2000);
+	await sleep(1500);
 
-	if (!selected.some((s) => s)) {
-		statusText.textContent = "CPU farkled!";
-		newTurnBtn.disabled = false;
+	if (!selected.some(Boolean)) {
+		console.log("🤖 CPU: Farkled. No scoring dice.");
+		statusText.textContent = "🤖 CPU farkled!";
+		newTurn();
 		return;
 	}
 
+	console.log("🤖 CPU: Locking selected dice...");
 	lockInSelected();
 
-	await sleep(2000);
+	await sleep(1500);
 
 	const totalLocked = locked.filter(Boolean).length;
 	const potentialScore = currentTurnScore;
+	const humanScore = players[0].totalScore;
+	const cpuScore = players[1].totalScore;
+	const scoreDiff = cpuScore - humanScore;
 
-	// === Decide to roll again or stop ===
-	const aggressive = Math.random() < 0.5;
+	// Normalize scoreDiff into range [-1, 1]
+	const normalizedDiff = Math.max(-1, Math.min(1, scoreDiff / 10000));
+
+	// Base aggressiveness: higher in later rounds (starts at 0.3, grows to 0.7)
+	const roundAggression = Math.min(0.7, 0.3 + 0.05 * roundNumber);
+
+	// Adjust for score gap: if behind, become more aggressive
+	const gapAdjustment = -0.3 * normalizedDiff;
+
+	// Final aggression probability
+	const aggressionProbability = Math.min(
+		0.95,
+		Math.max(0.1, roundAggression + gapAdjustment)
+	);
+
+	const aggressive = Math.random() < aggressionProbability;
+
+	console.log(
+		`🤖 CPU: Aggression check: round=${roundNumber}, scoreDiff=${scoreDiff}, chance=${Math.round(
+			aggressionProbability * 100
+		)}% → ${aggressive ? "ROLLING" : "STOPPING"}`
+	);
+
 	const shouldKeepRolling =
 		totalLocked <= 2 ||
 		(aggressive && rollCount < 3 && potentialScore >= 300);
 
 	if (shouldKeepRolling) {
-		await sleep(3000);
+		console.log("🤖 CPU: Rolling again...");
+		await sleep(1000);
 		cpuTurn();
 	} else {
-		// Before stopping, re-select all scoring dice
-		selected.fill(false);
-		for (let i = 0; i < 6; i++) {
-			if (!locked[i] && (dice[i] === 1 || dice[i] === 5)) {
-				selected[i] = true;
-			}
-		}
-		// if (selected.some(Boolean)) {
-		// 	lockInSelected();
-		// 	await sleep(3000);
-		// }
+		console.log(`🤖 CPU: Banking ${currentTurnScore} and ending turn.`);
 		stopTurn();
 
 		await sleep(1000);
@@ -402,7 +494,7 @@ function lockInSelected() {
 		renderDice();
 		updateScores();
 	} else {
-		statusText.textContent = "Lock must increase total score!";
+		statusText.textContent = "You must pick at least one die that scores.";
 	}
 }
 
@@ -473,7 +565,7 @@ function newTurn() {
 	}'s turn. Roll to start.`;
 
 	if (vsCPU && currentPlayer === 1) {
-		setTimeout(cpuTurn, 1000);
+		setTimeout(cpuTurn, 250);
 	}
 }
 
