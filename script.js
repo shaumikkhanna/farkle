@@ -687,6 +687,14 @@ document.getElementById("play-again-btn").addEventListener("click", () => {
 	window.location.reload(); // Or redirect to your game start screen
 });
 
+function showHowToPlay() {
+	document.getElementById("how-to-play-popup").classList.remove("hidden");
+}
+
+function hideHowToPlay() {
+	document.getElementById("how-to-play-popup").classList.add("hidden");
+}
+
 // Initial setup
 newTurn();
 rollBtn.addEventListener("click", rollDice);

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Farkle Game</title>
+		<title>Farkle Frenzy</title>
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -12,7 +12,7 @@
 	</head>
 
 	<body>
-		<h1>Farkle</h1>
+		<h1>Farkle Frenzy</h1>
 
 		<div id="game-info">
 			<span id="round-number">Round: 1</span> |
@@ -44,6 +44,72 @@
 				<button id="info-btn" class="info-button">
 					<i class="fas fa-circle-question"></i>
 				</button>
+			</div>
+
+			<div class="how-to-play-link" onclick="showHowToPlay()">
+				How to play?
+			</div>
+
+			<div id="how-to-play-popup" class="how-to-popup hidden">
+				<div class="popup-inner">
+					<button class="close-howto" onclick="hideHowToPlay()">
+						×
+					</button>
+					<h2>How to Play?</h2>
+
+					<h3>🎲 Objective</h3>
+					<p>
+						Farkle Frenzy is a push-your-luck dice game. Your goal
+						is to be the first player to reach
+						<strong>10,000 points</strong> by rolling combinations
+						that score. After a player crosses 10,000, all other
+						players get one last chance to beat that score.
+					</p>
+
+					<h3>🎯 On Your Turn</h3>
+					<p>
+						You start your turn by rolling six dice. After each
+						roll, you must
+						<strong>lock in at least one scoring die</strong> before
+						choosing to roll again or stop and bank your points.
+					</p>
+					<p>
+						You may roll up to <strong>three times</strong> in a
+						single turn, but each time you risk getting a
+						<em>Farkle</em>—a roll with no scoring dice—which causes
+						you to lose all points for that turn.
+					</p>
+
+					<h3>🔥 Hot Dice</h3>
+					<p>
+						If you manage to score with all six dice in a single
+						turn, you get <strong>Hot Dice</strong>. Your points are
+						banked automatically and you immediately get a new set
+						of six dice to continue your turn.
+					</p>
+
+					<h3>💥 Farkle</h3>
+					<p>
+						If none of your rolled dice score, you
+						<strong>Farkle</strong>. You lose all points accumulated
+						during that turn, and your turn ends immediately.
+					</p>
+
+					<h3>💾 Banking Points</h3>
+					<p>
+						At any point after locking in scoring dice, you may
+						choose to stop and
+						<strong>bank your points</strong> from the current turn.
+						These are then added to your total score.
+					</p>
+
+					<h3>🏆 Winning the Game</h3>
+					<p>
+						Once a player crosses <strong>10,000 points</strong>,
+						all others get a final turn. At the end of that round,
+						the player with the highest score wins!
+					</p>
+				</div>
 			</div>
 
 			<div id="status">Waiting for roll...</div>

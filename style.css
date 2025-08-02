@@ -445,3 +445,150 @@ button:disabled {
 		opacity: 1;
 	}
 }
+
+.how-to-play-link {
+	margin-top: 2rem;
+	font-size: 1.1rem;
+	color: #c73a21;
+	text-decoration: none;
+	border-bottom: 1px dotted #c73a21;
+	cursor: pointer;
+	display: inline-block;
+	transition: color 0.2s;
+}
+.how-to-play-link:hover {
+	color: #e0462f;
+}
+
+.how-to-popup {
+	position: fixed;
+	top: 10vh;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 85%;
+	max-width: 520px;
+	background: #fff5f2;
+	border: 2px dashed #f1bfb5;
+	border-radius: 16px;
+	color: #5e2b1d;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+	padding: 2rem;
+	z-index: 200;
+}
+
+.how-to-popup.hidden {
+	display: none;
+}
+
+.popup-inner {
+	position: relative;
+	font-size: 0.95rem;
+	line-height: 1.6;
+}
+
+.popup-inner h2 {
+	margin-top: 0;
+	text-align: center;
+	color: #d94f2a;
+	font-size: 1.6rem;
+}
+
+.popup-inner h3 {
+	margin-top: 1.4rem;
+	margin-bottom: 0.4rem;
+	color: #c73a21;
+	font-size: 1.1rem;
+}
+
+.popup-inner strong {
+	color: #a02d1e;
+	font-weight: bold;
+}
+
+.popup-inner em {
+	color: #d94f2a;
+	font-style: italic;
+}
+
+.close-howto {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 1.4rem;
+	background: none;
+	border: none;
+	color: #d94f2a;
+	cursor: pointer;
+}
+
+.how-to-popup {
+	position: fixed;
+	top: 12vh;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 90%;
+	max-width: 420px;
+	max-height: 70vh;
+	overflow-y: auto;
+	background: #fff5f2;
+	border: 2px dashed #f1bfb5;
+	border-radius: 16px;
+	color: #5e2b1d;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+	padding: 1.5rem;
+	z-index: 200;
+	scrollbar-width: thin;
+	scrollbar-color: #d94f2a #fff5f2;
+}
+
+.how-to-popup::-webkit-scrollbar {
+	width: 8px;
+}
+.how-to-popup::-webkit-scrollbar-thumb {
+	background-color: #e0462f;
+	border-radius: 4px;
+}
+.how-to-popup::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.popup-inner {
+	position: relative;
+	font-size: 0.92rem;
+	line-height: 1.5;
+}
+
+.popup-inner h2 {
+	margin-top: 0;
+	text-align: center;
+	color: #d94f2a;
+	font-size: 1.4rem;
+}
+
+.popup-inner h3 {
+	margin-top: 1.2rem;
+	margin-bottom: 0.4rem;
+	color: #c73a21;
+	font-size: 1rem;
+}
+
+.popup-inner strong {
+	color: #a02d1e;
+	font-weight: bold;
+}
+
+.popup-inner em {
+	color: #d94f2a;
+	font-style: italic;
+}
+
+.close-howto {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	font-size: 1.3rem;
+	background: none;
+	border: none;
+	color: #d94f2a;
+	cursor: pointer;
+}
